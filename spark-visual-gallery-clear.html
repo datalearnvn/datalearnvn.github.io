@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apache Spark Visual Gallery | DataLearn</title>
+  <meta name="description" content="A clear, slide-by-slide visual walkthrough of Apache Spark concepts." />
+  <style>
+    :root {
+      --bg: #020812;
+      --panel: #081525;
+      --panel-soft: #0d1d31;
+      --line: rgba(255, 255, 255, 0.13);
+      --text: #f4f8ff;
+      --muted: #a8b8cc;
+      --cyan: #6ff7e8;
+      --gold: #ffc76b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        radial-gradient(circle at top, rgba(0, 229, 255, 0.14), transparent 34%),
+        var(--bg);
+      background-size: 44px 44px, 44px 44px, auto, auto;
+      font-family: Inter, Arial, sans-serif;
+      line-height: 1.65;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    .wrap {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      border-bottom: 1px solid var(--line);
+      background: rgba(2, 8, 18, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--cyan), #1687ff);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 58px 0 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      gap: 32px;
+      align-items: center;
+    }
+
+    .kicker {
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 16px;
+      font-size: clamp(38px, 6vw, 82px);
+      line-height: 0.98;
+    }
+
+    .lead {
+      max-width: 680px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-frame,
+    .image-frame {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #030a14;
+    }
+
+    .hero-frame {
+      width: fit-content;
+      max-width: 100%;
+      justify-self: end;
+      padding: 0;
+    }
+
+    .hero-frame img,
+    .image-frame img {
+      width: 568px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 7px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 20px 0 42px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--gold);
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .section-head {
+      max-width: 780px;
+      margin-bottom: 22px;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.04;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .image-frame {
+      display: flex;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .body {
+      padding: 22px;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .meta span:last-child {
+      color: var(--gold);
+      letter-spacing: 0.08em;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.16;
+    }
+
+    .body p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .button {
+      min-height: 38px;
+      padding: 8px 13px;
+      border: 1px solid rgba(111, 247, 232, 0.35);
+      border-radius: 8px;
+      color: var(--cyan);
+      background: rgba(111, 247, 232, 0.08);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .note {
+      margin: 36px 0 70px;
+      padding: 22px;
+      border: 1px solid rgba(255, 199, 107, 0.35);
+      border-radius: 8px;
+      background: rgba(255, 199, 107, 0.07);
+    }
+
+    .note strong { color: var(--gold); }
+    .note p { margin: 6px 0 0; color: var(--muted); }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.86);
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-panel {
+      width: min(100%, 960px);
+    }
+
+    .lightbox-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .lightbox-title {
+      margin: 0;
+      color: var(--text);
+      font-size: 18px;
+    }
+
+    .lightbox img {
+      width: 568px;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #020812;
+    }
+
+    .close {
+      border-color: rgba(255, 255, 255, 0.28);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .gallery,
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-frame {
+        justify-self: start;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px 0;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="wrap nav" aria-label="Primary navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>DataLearn</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="use-cases.html">Use Cases</a>
+        <a href="notes.html">Notes</a>
+        <a href="about.html">About</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <div class="kicker">Clear Review Version</div>
+        <h1>Apache Spark, viewed one visual at a time.</h1>
+        <p class="lead">
+          This page avoids stretching the captured images beyond their source
+          resolution. Use the “View image” button on each card to inspect one
+          visual at a time with its English explanation.
+        </p>
+      </div>
+      <div class="hero-frame">
+        <img src="assets/images/spark-visual-gallery/01-apache-spark-powering-massive-data-systems.png" alt="Apache Spark powering massive data systems" />
+      </div>
+    </section>
+
+    <section class="toolbar" aria-label="Gallery summary">
+      <div class="metric"><strong>16</strong><span>visual lessons</span></div>
+      <div class="metric"><strong>568</strong><span>source pixels wide</span></div>
+      <div class="metric"><strong>1:1</strong><span>native display mode</span></div>
+      <div class="metric"><strong>EN</strong><span>explanations</span></div>
+    </section>
+
+    <section class="section-head">
+      <h2>Visual Walkthrough</h2>
+      <p>
+        The current files are screen captures from the ChatGPT viewer, so the
+        clearest display is native-size viewing rather than enlarging the image
+        inside a large card.
+      </p>
+    </section>
+
+    <section class="gallery" id="gallery"></section>
+
+    <section class="note">
+      <strong>Quality note:</strong>
+      <p>
+        These images are clearer here because the page no longer scales them up.
+        To make tiny text truly sharp, the next step is to export the original
+        high-resolution images from ChatGPT instead of using viewer screenshots.
+      </p>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
+    <div class="lightbox-panel">
+      <div class="lightbox-top">
+        <h2 class="lightbox-title" id="lightboxTitle"></h2>
+        <button class="button close" type="button" id="closeLightbox">Close</button>
+      </div>
+      <img id="lightboxImage" src="" alt="" />
+    </div>
+  </div>
+
+  <script>
+    const slides = [
+      ["01", "Scale", "Apache Spark: Powering Massive Data Systems", "Spark is introduced as a distributed data engine that breaks large workloads into parallel tasks across many machines.", "01-apache-spark-powering-massive-data-systems.png"],
+      ["02", "Problem", "Why Spark Exists", "Modern datasets exceed the limits of a single machine, so Spark distributes storage, compute, and execution pressure.", "02-why-spark-exists-scaling-data-challenges.png"],
+      ["03", "Platform", "Spark Ecosystem", "Spark is more than a processing engine; it is a unified platform for SQL, Python, streaming, and machine learning workloads.", "03-spark-ecosystem-tech-platform-infographic.png"],
+      ["04", "Interface", "PySpark: Python Meets Distributed Computing", "PySpark lets learners write familiar Python code while Spark translates that intent into distributed execution plans.", "04-pyspark-python-meets-distributed-computing.png"],
+      ["05", "Compare", "Pandas vs PySpark", "Pandas is ideal for local, memory-bound analysis; PySpark is built for partitioned data and parallel work across a cluster.", "05-pandas-vs-pyspark-comparison-infographic.png"],
+      ["06", "Entry Point", "Apache Spark Session Overview", "The SparkSession acts as the main gateway into Spark, connecting user code with DataFrames, SQL, catalogs, and execution.", "06-apache-spark-session-overview.png"],
+      ["07", "Data Model", "Distributed DataFrames", "A Spark DataFrame looks logical and tabular to the user, but physically it is split into partitions across cluster nodes.", "07-distributed-dataframes-scaling-with-nodes.png"],
+      ["08", "Execution", "Lazy Evaluation", "Spark records transformations first and delays execution until an action is called, giving the optimizer time to improve the plan.", "08-lazy-evaluation-in-spark-pipeline.png"],
+      ["09", "Concept", "Transformations vs Actions", "Transformations define a new dataset, while actions trigger computation and return results, files, or materialized outputs.", "09-transformations-vs-actions-in-spark.png"],
+      ["10", "DAG", "DAG Execution Flow", "Spark converts chained operations into a directed acyclic graph, then breaks that graph into stages and tasks.", "10-dag-execution-flow-and-optimization.png"],
+      ["11", "Partitioning", "Partitioning Strategy", "Good partitioning balances work across the cluster; poor partitioning creates skew, idle executors, and slow pipelines.", "11-partitioning-strategy-good-vs-bad.png"],
+      ["12", "Shuffle", "Shuffle: The Expensive Step", "Shuffle moves data across the network so related records can meet, making it one of Spark's most expensive operations.", "12-shuffle-the-expensive-step-explained.png"],
+      ["13", "Joins", "Join Strategies", "Broadcast joins reduce movement when one table is small, while shuffle joins are necessary when both sides are large.", "13-join-strategies-broadcast-vs-shuffle.png"],
+      ["14", "Performance", "Cache for Speed", "Caching keeps reused data close to the executors, avoiding repeated scans and accelerating iterative analysis.", "14-cache-for-speed-enhancing-data-systems.png"],
+      ["15", "SQL", "Spark SQL Engine Workflow", "Spark SQL turns declarative queries into analyzed, optimized, and executable plans for the distributed runtime.", "15-spark-sql-engine-workflow-infographic.png"],
+      ["16", "Optimizer", "Catalyst Optimizer", "Catalyst rewrites and improves query plans through analysis, logical optimization, physical planning, and code generation.", "16-catalyst-optimizer-workflow-diagram.png"]
+    ];
+
+    const gallery = document.getElementById("gallery");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxTitle = document.getElementById("lightboxTitle");
+    const closeLightbox = document.getElementById("closeLightbox");
+    const basePath = "assets/images/spark-visual-gallery/";
+
+    gallery.innerHTML = slides.map(([number, tag, title, description, file]) => {
+      const src = basePath + file;
+      return `
+        <article class="card">
+          <div class="image-frame">
+            <img src="${src}" alt="${title}" loading="lazy" />
+          </div>
+          <div class="body">
+            <div class="meta"><span>Slide ${number}</span><span>${tag}</span></div>
+            <h3>${title}</h3>
+            <p>${description}</p>
+            <div class="actions">
+              <button class="button" type="button" data-src="${src}" data-title="${title}">View image</button>
+              <a class="button" href="${src}" target="_blank" rel="noopener">Open file</a>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    gallery.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-src]");
+      if (!button) return;
+      lightboxImage.src = button.dataset.src;
+      lightboxImage.alt = button.dataset.title;
+      lightboxTitle.textContent = button.dataset.title;
+      lightbox.classList.add("open");
+    });
+
+    closeLightbox.addEventListener("click", () => {
+      lightbox.classList.remove("open");
+      lightboxImage.src = "";
+    });
+
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox.click();
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && lightbox.classList.contains("open")) {
+        closeLightbox.click();
+      }
+    });
+  </script>
+</body>
+</html>
