@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataLearn | Học dữ liệu để ra quyết định tốt hơn</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #617080;
+      --line: #dbe5ea;
+      --paper: #f7fbfc;
+      --white: #ffffff;
+      --teal: #00a9b7;
+      --teal-dark: #057382;
+      --coral: #ef6a4d;
+      --gold: #f2b84b;
+      --green: #32a36f;
+      --shadow: 0 22px 70px rgba(23, 33, 43, 0.13);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(247, 251, 252, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(219, 229, 234, 0.8);
+    }
+
+    .nav {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 20px;
+    }
+
+    .brand img {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--teal-dark);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .button.primary {
+      color: #fff;
+      background: var(--teal-dark);
+      box-shadow: 0 14px 34px rgba(5, 115, 130, 0.24);
+    }
+
+    .button.secondary {
+      color: var(--teal-dark);
+      background: #fff;
+      border-color: var(--line);
+    }
+
+    .hero {
+      min-height: calc(100vh - 76px);
+      display: grid;
+      align-items: center;
+      background:
+        linear-gradient(90deg, rgba(247, 251, 252, 0.98) 0%, rgba(247, 251, 252, 0.86) 48%, rgba(247, 251, 252, 0.18) 100%),
+        url("assets/images/data-strategy.png") center right / cover no-repeat;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-inner {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 64px 0 86px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--teal-dark);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      width: min(780px, 100%);
+      margin-bottom: 22px;
+      font-size: clamp(44px, 8vw, 86px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      width: min(650px, 100%);
+      color: #40505e;
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 34px;
+    }
+
+    .proof-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: min(720px, 100%);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .proof-item {
+      padding: 18px;
+      border-right: 1px solid var(--line);
+    }
+
+    .proof-item:last-child {
+      border-right: 0;
+    }
+
+    .proof-item strong {
+      display: block;
+      color: var(--ink);
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .proof-item span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 82px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      width: min(760px, 100%);
+      margin-bottom: 34px;
+    }
+
+    h2 {
+      margin-bottom: 14px;
+      font-size: clamp(32px, 4vw, 54px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      min-height: 250px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 14px 40px rgba(23, 33, 43, 0.08);
+    }
+
+    .feature-card:nth-child(1) {
+      border-top: 5px solid var(--teal);
+    }
+
+    .feature-card:nth-child(2) {
+      border-top: 5px solid var(--coral);
+    }
+
+    .feature-card:nth-child(3) {
+      border-top: 5px solid var(--gold);
+    }
+
+    .feature-card h3 {
+      margin-bottom: 10px;
+      font-size: 23px;
+      line-height: 1.2;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .showcase-image {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .showcase-image img {
+      aspect-ratio: 16 / 11;
+      object-fit: cover;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #17323a;
+      background: #e9f6f7;
+      border: 1px solid #cbe8eb;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .programs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .program {
+      display: grid;
+      grid-template-columns: 138px 1fr;
+      gap: 18px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .program img {
+      width: 138px;
+      height: 118px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .program h3 {
+      margin-bottom: 6px;
+      font-size: 20px;
+    }
+
+    .program p {
+      color: var(--muted);
+      margin-bottom: 0;
+      font-size: 15px;
+    }
+
+    .cta {
+      margin: 82px 0;
+      padding: 42px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--ink);
+      box-shadow: var(--shadow);
+    }
+
+    .cta h2 {
+      margin-bottom: 10px;
+      font-size: clamp(30px, 4vw, 48px);
+    }
+
+    .cta p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 18px;
+    }
+
+    .cta .button {
+      color: var(--ink);
+      background: var(--gold);
+    }
+
+    .site-footer {
+      padding: 34px 16px 46px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .site-footer img {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 10px;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 820px) {
+      .nav {
+        min-height: 68px;
+      }
+
+      .nav-links a {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        background:
+          linear-gradient(180deg, rgba(247, 251, 252, 0.9), rgba(247, 251, 252, 1) 62%),
+          url("assets/images/data-strategy.png") top center / cover no-repeat;
+      }
+
+      .hero-inner {
+        padding: 220px 0 54px;
+      }
+
+      .proof-strip,
+      .feature-grid,
+      .showcase,
+      .programs,
+      .cta {
+        grid-template-columns: 1fr;
+      }
+
+      .proof-item {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .proof-item:last-child {
+        border-bottom: 0;
+      }
+
+      .program {
+        grid-template-columns: 104px 1fr;
+      }
+
+      .program img {
+        width: 104px;
+        height: 104px;
+      }
+
+      section {
+        padding: 58px 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .brand span {
+        font-size: 18px;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .hero-copy {
+        font-size: 18px;
+      }
+
+      .program {
+        grid-template-columns: 1fr;
+      }
+
+      .program img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 10;
+      }
+
+      .cta {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Điều hướng chính">
+      <a class="brand" href="#top">
+        <img src="assets/images/logo-datalearn.png" alt="DataLearn logo" />
+        <span>DataLearn</span>
+      </a>
+      <div class="nav-links">
+        <a href="#why">Lợi ích</a>
+        <a href="#solutions">Giải pháp</a>
+        <a href="#programs">Chương trình</a>
+        <a class="button primary" href="#contact">Tư vấn ngay</a>
+      </div>
+    </nav>
+  </header>
+
+  <section id="top" class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Data Science • AI • Analytics</p>
+      <h1>Biến dữ liệu thành quyết định rõ ràng hơn.</h1>
+      <p class="hero-copy">
+        DataLearn giúp đội ngũ học, ứng dụng và xây dựng năng lực dữ liệu thực tế:
+        từ chiến lược dữ liệu, phân tích nâng cao đến AI và decision intelligence.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="#programs">Khám phá chương trình</a>
+        <a class="button secondary" href="#solutions">Xem giải pháp</a>
+      </div>
+      <div class="proof-strip" aria-label="Điểm nổi bật DataLearn">
+        <div class="proof-item">
+          <strong>6</strong>
+          <span>nhóm năng lực dữ liệu</span>
+        </div>
+        <div class="proof-item">
+          <strong>AI</strong>
+          <span>ứng dụng vào bài toán thật</span>
+        </div>
+        <div class="proof-item">
+          <strong>Team</strong>
+          <span>học để triển khai được</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section id="why">
+      <div class="section-head">
+        <p class="eyebrow">Vì sao DataLearn</p>
+        <h2>Không chỉ học công cụ, mà xây năng lực ra quyết định.</h2>
+        <p>
+          DataLearn tập trung vào kỹ năng dùng được trong công việc: hiểu bài toán,
+          thiết kế dữ liệu đúng, phân tích có cấu trúc và truyền đạt insight mạch lạc.
+        </p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Học theo bối cảnh doanh nghiệp</h3>
+          <p>Các ví dụ và case study xoay quanh vận hành, marketing, tài chính, sản phẩm và tăng trưởng.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Từ nền tảng đến triển khai</h3>
+          <p>Lộ trình bao phủ data strategy, pipeline, dashboard, machine learning và đo lường tác động.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Đội ngũ cùng tiến bộ</h3>
+          <p>Phù hợp cho cá nhân, nhóm phân tích, quản lý và doanh nghiệp muốn nâng cấp văn hóa dữ liệu.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="solutions" class="showcase">
+      <div class="showcase-image">
+        <img src="assets/images/decision-intelligence.png" alt="Decision intelligence tại DataLearn" />
+      </div>
+      <div>
+        <p class="eyebrow">Giải pháp nổi bật</p>
+        <h2>Đưa insight vào quy trình vận hành hằng ngày.</h2>
+        <p class="section-head">
+          DataLearn kết nối tư duy phân tích với hành động: chọn chỉ số đúng,
+          tự động hóa luồng dữ liệu, phát hiện tín hiệu quan trọng và hỗ trợ lãnh đạo
+          ra quyết định nhanh hơn.
+        </p>
+        <div class="pill-list" aria-label="Các năng lực DataLearn">
+          <span class="pill">Data Strategy</span>
+          <span class="pill">Advanced Analytics</span>
+          <span class="pill">AI & Machine Learning</span>
+          <span class="pill">Data Platform</span>
+          <span class="pill">Upskilling</span>
+          <span class="pill">Decision Intelligence</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="programs">
+      <div class="section-head">
+        <p class="eyebrow">Chương trình</p>
+        <h2>Các mảng học và tư vấn có thể bắt đầu ngay.</h2>
+        <p>Chọn một điểm khởi đầu phù hợp với mục tiêu hiện tại của cá nhân hoặc đội ngũ.</p>
+      </div>
+      <div class="programs">
+        <article class="program">
+          <img src="assets/images/training-upskilling.png" alt="Training và upskilling dữ liệu" />
+          <div>
+            <h3>Training & Data Upskilling</h3>
+            <p>Nâng cấp kỹ năng phân tích, trực quan hóa, storytelling và tư duy dữ liệu cho đội ngũ.</p>
+          </div>
+        </article>
+        <article class="program">
+          <img src="assets/images/data-platform.png" alt="Thiết kế data platform" />
+          <div>
+            <h3>Data Platform & Pipeline</h3>
+            <p>Thiết kế luồng dữ liệu đáng tin cậy, dễ mở rộng và phục vụ tốt cho phân tích lẫn AI.</p>
+          </div>
+        </article>
+        <article class="program">
+          <img src="assets/images/advanced-analytics.png" alt="Advanced analytics" />
+          <div>
+            <h3>Advanced Analytics</h3>
+            <p>Ứng dụng thống kê, phân tích hành vi và mô hình dự báo để nhìn rõ cơ hội tăng trưởng.</p>
+          </div>
+        </article>
+        <article class="program">
+          <img src="assets/images/ai-machine-learning.png" alt="AI và machine learning" />
+          <div>
+            <h3>AI & Machine Learning</h3>
+            <p>Xây dựng mô hình thông minh và quy trình AI bám sát bài toán kinh doanh thực tế.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <aside id="contact" class="cta">
+      <div>
+        <h2>Sẵn sàng để đội ngũ dùng dữ liệu tốt hơn?</h2>
+        <p>Bắt đầu bằng một buổi trao đổi mục tiêu, năng lực hiện tại và lộ trình DataLearn phù hợp.</p>
+      </div>
+      <a class="button" href="mailto:hello@datalearn.vn">Liên hệ DataLearn</a>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <img src="assets/images/logo-datalearn.png" alt="DataLearn logo" />
+    <div>DataLearn • Learn data. Build intelligence. Make better decisions.</div>
+  </footer>
+</body>
+</html>
