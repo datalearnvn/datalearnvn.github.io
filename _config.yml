@@ -1,4 +1,5 @@
-title: DataLearn Blog
-description: Daily notes about Data Science, AI, and Analytics
-theme: minima
+title: DataLearn
+description: Turn Data Into Decisions
+theme: null
 markdown: kramdown
+permalink: /:year/:month/:day/:title/
