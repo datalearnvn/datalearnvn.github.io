@@ -1,5 +1,10 @@
 title: DataLearn
 description: Turn Data Into Decisions
-theme: null
+baseurl: ""
+url: "https://datalearnvn.github.io"
 markdown: kramdown
 permalink: /:categories/:year/:month/:day/:title/
+plugins: []
+collections:
+  pages:
+    output: true

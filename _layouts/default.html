@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ page.title }} | {{ site.title }}</title>
-  <link rel="stylesheet" href="/style.css">
+  <meta name="description" content="{{ page.subtitle | default: site.description }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
 </head>
-
 <body>
   <div class="bg-grid"></div>
   <div class="bg-glow"></div>
 
   <header class="header">
-    <a class="brand" href="/">
-      <img src="/assets/images/datalearn-logo.png" alt="DataLearn Logo">
+    <a class="brand" href="/" aria-label="DataLearn home">
+      <img src="/assets/images/logo-datalearn.png" alt="DataLearn logo" />
     </a>
-
-    <nav>
+    <button class="menu-button" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+    <nav class="nav">
       <a href="/">Home</a>
-      <a href="/categories/data-science">Data Science</a>
-      <a href="/categories/ai">AI</a>
-      <a href="/categories/analytics">Analytics</a>
-      <a href="/categories/credit-risk">Credit Risk</a>
+      <a href="/use-cases/">Use Cases</a>
+      <a href="/notes/">Notes</a>
+      <a href="/about/">About</a>
     </nav>
   </header>
 
@@ -29,7 +31,8 @@
     {{ content }}
   </main>
 
-  <footer>
+  <footer class="footer">
+    <img src="/assets/images/logo-datalearn.png" alt="DataLearn logo" />
     <p>© 2026 DataLearn — Turn Data Into Decisions</p>
   </footer>
 </body>

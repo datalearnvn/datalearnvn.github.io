@@ -1,30 +1,33 @@
 ---
 layout: post
 title: "Welcome to DataLearn"
-subtitle: "A daily learning space for data science, AI, and analytics."
+subtitle: "A daily learning space for data science, AI, analytics, and decision intelligence."
 date: 2026-05-03
+categories: data-science ai analytics
+image: /assets/images/data-strategy.png
 ---
 
-DataLearn is where I document practical ideas about data science, machine learning, analytics, and decision intelligence.
+DataLearn is where practical data concepts become clear decisions.
 
-## Why this blog exists
+## Why this site exists
 
-The goal is simple:
+The mission is simple: make complex data science, analytics, and AI topics easier to understand, remember, and apply.
 
-> Turn complex data concepts into clear, practical decisions.
+## What you can publish here
 
-## Topics
-
-- Data Science
-- Machine Learning
-- Credit Risk
-- Analytics
-- AI Systems
-- Decision Intelligence
+- Daily notes about data science
+- Visual explainers
+- AI and machine learning concepts
+- Credit risk and decisioning frameworks
+- Analytics case studies
+- Learning roadmaps
 
 ## Daily workflow
 
-Every day, just create one Markdown file inside `_posts`.
+Create a new Markdown file:
 
 ```text
-_posts/YYYY-MM-DD-title.md
+_posts/YYYY-MM-DD-your-title.md
+```
+
+Commit it to GitHub. GitHub Pages will publish it automatically.
